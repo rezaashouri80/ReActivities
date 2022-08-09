@@ -19,3 +19,6 @@ In this application used various of technologies,frameworks and libraries such a
 * Mobx state manager
 
 * Auto Mapper
+
+
+note:This is just for my resume
