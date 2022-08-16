@@ -19,7 +19,7 @@ opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Services.AddCors(opt=>{
     opt.AddPolicy("CorsPolicy",policy=>{
-        policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3001");
+        policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
     });
 });
 
