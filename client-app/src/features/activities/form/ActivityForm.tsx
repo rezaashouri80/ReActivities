@@ -6,10 +6,11 @@ interface Props{
     closeForm:()=>void;
     activity:Activity | undefined;
     addOrEdit:(activity:Activity)=>void;
+    submiting:boolean;
 }
 
 
-const ActivityForm=({activity:selectedActivity,closeForm,addOrEdit}:Props)=>
+const ActivityForm=({activity:selectedActivity,submiting,closeForm,addOrEdit}:Props)=>
 {
 
     const initialState=selectedActivity ?? {id:'',city:'',category:'',venue:'',date:'',description:'',title:''}
@@ -33,8 +34,9 @@ const ActivityForm=({activity:selectedActivity,closeForm,addOrEdit}:Props)=>
                 <Form.TextArea value={activity.description} onChange={handleInputChange} name='description' placeholder='Description'/>
                 <Form.Input value={activity.category} onChange={handleInputChange} name='category' placeholder='Category' />
                 <Form.Input value={activity.venue} onChange={handleInputChange} name='venue' placeholder='Venue' />
+                <Form.Input type="date" value={activity.date} onChange={handleInputChange} name='date' placeholder='date' />
                 <Form.Input value={activity.city} onChange={handleInputChange} name='city' placeholder='City' />
-                <Button floated="right" positive type="submit" content='Submit'/>
+                <Button loading={submiting} floated="right" positive type="submit" content='Submit'/>
                 <Button floated="right" type="button" onClick={closeForm} content='cancel' />
             </Form>
         </Segment>
