@@ -1,15 +1,17 @@
+import { observable } from "mobx";
+import { observer } from "mobx-react-lite";
 import React, { SyntheticEvent, useState } from "react";
 import { Button, Grid, Item, Label, List, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
+import { useStore } from "../../../app/stores/store";
 
-interface Props {
-    activities: Activity[];
-    selectActivity:(id:string)=>void;
-    deleteActivity:(id:string)=>void;
-    submiting:boolean
-}
 
-const ActivityList = ({ activities,submiting,selectActivity,deleteActivity }: Props) => {
+
+const ActivityList = () => {
+
+    const {activityStore}=useStore();
+
+    const {deleteActivity,activitiesByDate,loading}=activityStore
 
     const[target,setTarget]=useState('');
 
@@ -22,7 +24,7 @@ const ActivityList = ({ activities,submiting,selectActivity,deleteActivity }: Pr
     return(
             <Segment>
                 <Item.Group divided>
-                    {activities.map(item=>(
+                    {activitiesByDate.map(item=>(
                         <Item key={item.id}>
                                 <Item.Content>
                                     <Item.Header as='a'>{item.title}</Item.Header>
@@ -32,10 +34,12 @@ const ActivityList = ({ activities,submiting,selectActivity,deleteActivity }: Pr
                                         <div>{item.city},{item.venue}</div>
                                     </Item.Description>
                                     <Item.Extra>
-                                        <Button onClick={()=>selectActivity(item.id)} floated='right' content='View' color='blue' />
+                                        <Button onClick={()=>{
+                                            activityStore.closeForm();
+                                            activityStore.selectActivity(item.id);}} floated='right' content='View' color='blue' />
                                         <Button 
                                         name={item.id}
-                                        loading={submiting && target==item.id} 
+                                        loading={loading && target==item.id} 
                                         onClick={(e)=>HandleDelete(e,item.id)} 
                                         floated='right' content='Delete' color='red' />
 
@@ -49,4 +53,4 @@ const ActivityList = ({ activities,submiting,selectActivity,deleteActivity }: Pr
     )
 }
 
-export default ActivityList;
+export default observer(ActivityList);
